@@ -3,9 +3,9 @@ import Header from "./Header";
 import { useRef, useState } from "react";
 import { createUserWithEmailAndPassword,signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
 import { addUser } from "../utils/userSlice";
 import { useDispatch } from "react-redux";
+import { BG_IMG, USER_AVATAR } from "../utils/constants";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
@@ -16,8 +16,6 @@ const Login = () => {
   const name=useRef(null);
   const email=useRef(null);
   const password=useRef(null);
-
-  const navigate=useNavigate();
 
   const handleButtonClick=()=>{
     //Validate the form data
@@ -34,13 +32,12 @@ const Login = () => {
         // Signed up 
         const user = userCredential.user;
         updateProfile(user, {
-          displayName: name.current.value, photoURL: "https://example.com/jane-q-user/profile.jpg"
+          displayName: name.current.value, photoURL: USER_AVATAR
         }).then(() => {
           // Profile updated!
           // ...
           const {uid,email,displayName, photoURL} = auth.currentUser;
           dispatch(addUser({uid:uid,email:email,displayName:displayName,photoURL:photoURL}));
-          navigate("/browse");
         }).catch((error) => {
           // An error occurred
           // ...
@@ -62,7 +59,6 @@ const Login = () => {
         console.log(user);
         const {uid,email,displayName, photoURL} = auth.currentUser;
           dispatch(addUser({uid:uid,email:email,displayName:displayName,photoURL:photoURL}));
-        navigate("/browse");
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -81,7 +77,7 @@ const Login = () => {
       <Header />
       <div className="absolute">
         <img
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/9d3533b2-0e2b-40b2-95e0-ecd7979cc88b/a3873901-5b7c-46eb-b9fa-12fea5197bd3/IN-en-20240311-popsignuptwoweeks-perspective_alpha_website_large.jpg"
+          src={BG_IMG}
           alt="bg"
         />
       </div>
@@ -108,12 +104,12 @@ const Login = () => {
           className="p-4 my-4 w-full bg-gray-700 rounded-lg"
         />
         <p className="font-bold text-lg py-2 text-red-600">{errorMessage}</p>
-        <button className="p-4 my-6 bg-red-700 w-full rounded-lg"
+        <button className="hover:opacity-80 active:opacity-60 p-4 my-6 bg-red-700 w-full rounded-lg"
         onClick={handleButtonClick}
         >
           {isSignInForm ? "Sign In" : "Sign Up"}
         </button>
-        <p className="py-4 cursor-pointer" onClick={toggleSignInForm}>
+        <p className="py-4 cursor-pointer hover:underline" onClick={toggleSignInForm}>
           {isSignInForm
             ? "New to Netflix?Sign up now"
             : "Already a member? Sign In Now"}
