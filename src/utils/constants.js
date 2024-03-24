@@ -12,3 +12,7 @@ export const API_OPTIONS={
      'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmYmFlZjMwZGVlZTljMDk5ODlkMDIxZDM5YTJmZmMwMyIsInN1YiI6IjY2MDAwZmY2MTk3ZGU0MDE4NjE5OTM3ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.V3dV3hnM6Hao_MRumlWtnuH5trczfn7Nl3BIix-_yCw'
   }
 };
+
+export const IMG_CDN="https://image.tmdb.org/t/p/w500/";
+
+export const FETCH_MOVIE_API="https://api.themoviedb.org/3/movie/";

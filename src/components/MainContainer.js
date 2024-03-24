@@ -10,7 +10,9 @@ const MainContainer = () => {
 
   const index=Math.floor(Math.random()*20);
 
-  const mainMovie=movies[17];
+  // console.log(index);
+
+  const mainMovie=movies[index];
 
   const {original_title, overview,id}=mainMovie;
 

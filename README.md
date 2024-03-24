@@ -29,6 +29,8 @@
 -Update Store with Trailor video Data
 -Embedded the Youtube video and make it autoplay and mute
 -TailWind Classes to make Main Container look awesome
+-BUild secondary container with MovieLists and MovieCard
+-made use{genre}movies custom hooks to fetch different genre movies
  
 # Features
 -Login/SignUp
