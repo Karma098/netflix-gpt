@@ -16,3 +16,19 @@ export const API_OPTIONS={
 export const IMG_CDN="https://image.tmdb.org/t/p/w500/";
 
 export const FETCH_MOVIE_API="https://api.themoviedb.org/3/movie/";
+
+
+export const SUPPORTED_LANGUAGES=[
+  {
+  identifier:"en",
+  name:"English",
+  },
+  {
+  identifier:"hindi",
+  name:"Hindi",
+  },
+  {
+  identifier:"japanese",
+  name:"Japanese",
+  },
+];

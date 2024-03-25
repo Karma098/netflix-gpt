@@ -31,6 +31,9 @@
 -TailWind Classes to make Main Container look awesome
 -BUild secondary container with MovieLists and MovieCard
 -made use{genre}movies custom hooks to fetch different genre movies
+-GPT search feature
+-GPT search bar
+-Multi language feature
  
 # Features
 -Login/SignUp

@@ -28,7 +28,7 @@ const movieSlice=createSlice({
     },
     addTrendingMovies:(state,action)=>{
       state.trendingMovies=action.payload;
-    }
+    },
   },
 });
 
