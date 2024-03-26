@@ -32,3 +32,10 @@ export const SUPPORTED_LANGUAGES=[
   name:"Japanese",
   },
 ];
+
+// export const OPENAI_KEY="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";
+export const OPENAI_KEY="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";
+
+// AIzaSyBSf7fhMWFRar_ffhKyQ4UIg8gcUdMiK_c
+
+export const GEN_AI_API="AIzaSyBSf7fhMWFRar_ffhKyQ4UIg8gcUdMiK_c";
