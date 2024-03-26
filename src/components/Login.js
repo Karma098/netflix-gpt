@@ -6,10 +6,13 @@ import { auth } from "../utils/firebase";
 import { addUser } from "../utils/userSlice";
 import { useDispatch } from "react-redux";
 import { BG_IMG, USER_AVATAR } from "../utils/constants";
+import {FaEye,FaEyeSlash} from "react-icons/fa";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage,setErrorMessage]=useState(null);
+
+  const [showPassword,setShowPassword]=useState(false);
 
   const dispatch=useDispatch();
 
@@ -72,6 +75,10 @@ const Login = () => {
     setIsSignInForm(!isSignInForm);
   };
 
+  const togglePasswordVisibility=()=>{
+    setShowPassword(!showPassword);
+  }
+
   return (
     <div>
       <Header />
@@ -97,12 +104,17 @@ const Login = () => {
           placeholder="Email Address"
           className="p-4 my-4 w-full bg-gray-700 rounded-lg"
         />
-        <input
-          ref={password}
-          type="password"
-          placeholder="Password"
-          className="p-4 my-4 w-full bg-gray-700 rounded-lg"
-        />
+        <div className="flex">          
+          <input
+            ref={password}
+            type={showPassword?"text":"password"}
+            placeholder="Password"
+            className="p-4 my-4 w-full bg-gray-700 rounded-lg"
+          />
+          <button
+          onClick={togglePasswordVisibility} 
+          className="my-7 px-2 rounded-full bg-gray-700 hover:bg-black -ml-8">{showPassword?<FaEyeSlash/>:<FaEye/>}</button>
+        </div>
         <p className="font-bold text-lg py-2 text-red-600">{errorMessage}</p>
         <button className="hover:opacity-80 active:opacity-60 p-4 my-6 bg-red-700 w-full rounded-lg"
         onClick={handleButtonClick}
