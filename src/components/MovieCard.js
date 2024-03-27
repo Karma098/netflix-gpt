@@ -39,7 +39,7 @@ const MovieCard = ({ posterPath,movieId }) => {
   return (
 
 
-    <div className="w-44 pr-4 ">
+    <div className="w-36 md:w-44 pr-4 ">
       {!showVideo&&<img
         id="image"
         className="rounded-md cursor-pointer"
@@ -48,7 +48,7 @@ const MovieCard = ({ posterPath,movieId }) => {
         onMouseEnter={handleMouseEnter}
       />}
       {showVideo && (
-        <div className="relative z-10 w-80 h-80 rounded-lg overflow-hidden -ml-20 " id="youtube">
+        <div className="relative z-10 w-48 h-44 md:w-80 md:h-80 rounded-lg overflow-hidden md:-ml-20 " id="youtube">
           <iframe
           className="w-[100%] h-[100%] aspect-auto border-none"
             title="YouTube video player"

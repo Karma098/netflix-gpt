@@ -34,6 +34,14 @@
 -GPT search feature
 -GPT search bar
 -Multi language feature
+-GetGemini Api key
+-Gemini search API call
+fetched geminiMovieSuggestions from TMDB
+-created gptSlice added data
+-Reused MovieList component to make movie suggestion
+-Memoization
+-.env file
+-made site responsive
  
 # Features
 -Login/SignUp
