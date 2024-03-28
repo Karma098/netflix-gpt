@@ -1,60 +1,131 @@
-import { useState } from "react";
-import { IMG_CDN } from "../utils/constants";
-import useMiniMovieTrailer from "../hooks/useMiniMovieTrailer";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { API_OPTIONS, IMG_CDN } from "../utils/constants";
+import { useDispatch, useSelector } from "react-redux";
+import { addMatchId, addPosterPath } from "../utils/configSlice";
+import { useNavigate } from "react-router-dom";
+import { addMiniTrailerVideo } from "../utils/movieSlice";
 
-const MovieCard = ({ posterPath,movieId }) => {
+const MovieCard = ({ posterPath }) => {
   const [showVideo, setShowVideo] = useState(false);
   const [enterTimeout, setEnterTimeout] = useState(null);
-  useMiniMovieTrailer(movieId);
-  const miniMovieTrailer=useSelector((store)=>store.movies.miniTrailerVideo);
-  // console.log(movieId);
+  const dispatch = useDispatch();
+
+  const movieResults = useSelector((store) => store.gpt.movieResults);
+  const navigate = useNavigate();
+
+  const movies = useSelector((store) => store.movies);
+  const matchedId = useSelector(
+    (store) => store.config.miniTrailerInfo.matchId
+  );
+
+  const requiredPoster = useSelector(
+    (store) => store.config.miniTrailerInfo.posterPath
+  );
+  const miniMovieTrailer = useSelector(
+    (store) => store.movies.miniTrailerVideo
+  );
+
+  const getMovieVideos = async () => {
+    try {
+      const data = await fetch(
+        `https://api.themoviedb.org/3/movie/${matchedId}/videos?language=en-US`,
+        API_OPTIONS
+      );
+
+      const json = await data.json();
+      // console.log(json);
+
+      const filterData = json?.results?.filter(
+        (video) => video.type === "Trailer" && video.name === "Official Trailer"
+      );
+      const trailer = filterData?.length ? filterData[0] : json.results[0];
+      // console.log(trailer);
+      dispatch(addMiniTrailerVideo(trailer));
+    } catch (error) {
+      console.log(
+        "There has been a problem with your fetch operation: ",
+        error.message
+      );
+      navigate("/error");
+    }
+  };
+
+  useEffect(() => {
+    const filteredMovieData = Object.fromEntries(
+      Object.entries(movies).filter(
+        ([key, value]) => key !== "trailerVideo" && key !== "miniTrailerVideo"
+      )
+    );
+
+    if (movieResults !== null) {
+      if (requiredPoster !== null) {
+        for (const moviesArray of movieResults) {
+          const matchedMovie = moviesArray.find(
+            (movie) => movie?.poster_path === requiredPoster
+          );
+          if (matchedMovie) {
+            dispatch(addMatchId(matchedMovie?.id));
+            break;
+          }
+        }
+      }
+    }
+    else{
+      if (requiredPoster !== null) {
+        for (const moviesArray of Object.values(filteredMovieData)) {
+          const matchedMovie = moviesArray.find(
+            (movie) => movie?.poster_path === requiredPoster
+          );
+          if (matchedMovie) {
+            dispatch(addMatchId(matchedMovie?.id));
+            break;
+          }
+        }
+      }
+    }
+
+  }, [requiredPoster]);
+
   if (!posterPath) return null;
-  // console.log(miniMovieTrailer[0]?.id===movieId);
 
-  // const handleMouseEnter = () => {
-  //   setTimeout(() => {
-  //       setShowVideo(true);
-  //   }, 500);
-  // }
-
-  const handleMouseEnter=()=> {
-    // console.log('Mouse entered!');
-    // Clear any pending enter timeout
+  const handleMouseEnter = () => {
+    dispatch(addPosterPath(posterPath));
     setShowVideo(true);
     clearTimeout(enterTimeout);
-  }
+  };
 
-  const handleMouseLeave=()=> {
-    // console.log('Mouse left!');
-    // Set a timeout to ensure onMouseEnter doesn't trigger if mouse leaves quickly
+  const handleMouseLeave = () => {
     const timeout = setTimeout(() => {
-      // console.log('Cleared onMouseEnter');
-      // Your onMouseEnter logic goes here
       setShowVideo(false);
     }, 50);
     setEnterTimeout(timeout);
-  }
+  };
 
   return (
-
-
     <div className="w-36 md:w-44 pr-4 ">
-      {!showVideo&&<img
-        id="image"
-        className="rounded-md cursor-pointer"
-        alt="MovieCard"
-        src={IMG_CDN + posterPath}
-        onMouseEnter={handleMouseEnter}
-      />}
-      {showVideo && (
-        <div className="relative z-10 w-48 h-44 md:w-80 md:h-80 rounded-lg overflow-hidden md:-ml-20 " id="youtube">
+      {!showVideo && (
+        <img
+          id="image"
+          className="rounded-md cursor-pointer"
+          alt="MovieCard"
+          src={IMG_CDN + posterPath}
+          onMouseEnter={handleMouseEnter}
+        />
+      )}
+      {showVideo && getMovieVideos() && (
+        <div
+          className="relative z-10 w-48 h-44 md:w-80 md:h-80 rounded-lg overflow-hidden md:-ml-5 "
+          id="youtube"
+        >
           <iframe
-          className="w-[100%] h-[100%] aspect-auto border-none"
+            className="w-[100%] h-[100%] aspect-auto border-none"
             title="YouTube video player"
-            src={"https://www.youtube.com/embed/"+miniMovieTrailer[5]?.key+"?&autoplay=1&mute=0"}
+            src={
+              "https://www.youtube.com/embed/" +
+              miniMovieTrailer?.key +
+              "?&autoplay=1&mute=0"
+            }
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-
             onMouseOut={handleMouseLeave}
           ></iframe>
         </div>

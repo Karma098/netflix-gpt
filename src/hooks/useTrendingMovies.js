@@ -19,6 +19,8 @@ const useTrendingMovies=()=>{
       dispatch(addTrendingMovies(json.results));
     }catch(error){
       navigate("/error");
+      // console.log('There has been a problem with your fetch operation: ', error.message);
+
     }
   };
 

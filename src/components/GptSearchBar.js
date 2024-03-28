@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import lang from '../utils/languageConstants'
 import { useDispatch, useSelector } from 'react-redux'
 import genAI, {safetySettings} from '../utils/genAI';
@@ -6,11 +6,16 @@ import { API_OPTIONS } from '../utils/constants';
 import { addGptMovieResult } from '../utils/gptSlice';
 import Error from './Error';
 import { useNavigate } from 'react-router-dom';
+import Button from 'react-bootstrap-button-loader';
 
 const GptSearchBar = () => {
   const currLang=useSelector((store)=>store.config.lang);
   const searchText=useRef(null);
   const dispatch=useDispatch();
+
+  const [isLoading,setIsLoading]=useState(false);
+
+  const movieResults=useSelector(store=>store.gpt.movieResults);
 
   const navigate=useNavigate();
   //search movie TMDB
@@ -34,7 +39,8 @@ const GptSearchBar = () => {
     // console.log(searchText.current.value);
     //Make an API call to GPT API and get Movie results
     try{
-      const genAiQuery="Act as a Movie Recommendation system and suggest some movies for the query: "+searchText.current.value+". Only give me name of  movies, comma separated like the example result given- [Gadar,Sholay,Elemental,Don,La La Land,etc]";
+      setIsLoading(true);
+      const genAiQuery="Act as a Movie Recommendation system and suggest some movies for the query: "+searchText.current.value+". Only give me name of 5 movies, comma separated like the example result given- [Gadar,Sholay,Elemental,Don,La La Land,etc]";
     
       const model = genAI.getGenerativeModel({ model: "gemini-pro",safety:safetySettings});
       const result = await model.generateContent(genAiQuery);
@@ -49,6 +55,7 @@ const GptSearchBar = () => {
       const tmdbResults=await Promise.all(promiseArray);
       // console.log(tmdbResults);
       dispatch(addGptMovieResult({movieNames:genAiMovies,movieResults:tmdbResults}));
+      setIsLoading(false);
     }catch(error){
       navigate("/error");
       <Error error={error}/>
@@ -64,9 +71,14 @@ const GptSearchBar = () => {
         <input
         ref={searchText}
         type='text' className='col-span-10 p-3 m-4 rounded-md' placeholder={lang[currLang].gptSearchPlaceholder}/>
-        <button className='col-span-2 m-4 py-2 px-4 bg-red-700 text-white rounded-lg hover:opacity-80 active:opacity-55'
+        {!isLoading?<button className='col-span-2 m-4 py-2 px-4 bg-red-700 text-white rounded-lg hover:opacity-80 active:opacity-55'
         onClick={handleGptSearchClick}
-        >{lang[currLang].search}</button>
+        >{lang[currLang].search}</button>:
+        <Button 
+        className='col-span-2 m-4 py-2 px-4 bg-red-700 text-white rounded-lg hover:opacity-80 active:opacity-55' 
+        loading={true}
+        disabled={true}
+        ></Button>}
       </form>
     </div>
   )

@@ -7,10 +7,14 @@ import { addUser } from "../utils/userSlice";
 import { useDispatch } from "react-redux";
 import { BG_IMG, USER_AVATAR } from "../utils/constants";
 import {FaEye,FaEyeSlash} from "react-icons/fa";
+import Button from 'react-bootstrap-button-loader';
+
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage,setErrorMessage]=useState(null);
+
+  const [isLoading,setIsLoading]=useState(false);
 
   const [showPassword,setShowPassword]=useState(false);
 
@@ -24,12 +28,14 @@ const Login = () => {
     //Validate the form data
     // console.log(email.current.value);
     // console.log(password.current.value);
+    
     const message=checkValidData(email.current.value,password.current.value);
     setErrorMessage(message);
     if(message) return;
 
     if(!isSignInForm){
       //Sign up logic
+      setIsLoading(true);
       createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
       .then((userCredential) => {
         // Signed up 
@@ -41,10 +47,12 @@ const Login = () => {
           // ...
           const {uid,email,displayName, photoURL} = auth.currentUser;
           dispatch(addUser({uid:uid,email:email,displayName:displayName,photoURL:photoURL}));
+          setIsLoading(false);
         }).catch((error) => {
           // An error occurred
           // ...
           setErrorMessage(errorMessage);
+          setIsLoading(false);
         });
         console.log(user);
       })
@@ -52,9 +60,11 @@ const Login = () => {
         const errorCode = error.code;
         const errorMessage = error.message;
         setErrorMessage(errorCode+ "-" +errorMessage);
+        setIsLoading(false);
       });
     }
     else {
+      setIsLoading(true);
       signInWithEmailAndPassword(auth, email.current.value, password.current.value)
       .then((userCredential) => {
         // Signed in 
@@ -62,11 +72,13 @@ const Login = () => {
         console.log(user);
         const {uid,email,displayName, photoURL} = auth.currentUser;
           dispatch(addUser({uid:uid,email:email,displayName:displayName,photoURL:photoURL}));
+          setIsLoading(false);
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         setErrorMessage(errorCode+"-"+errorMessage);
+        setIsLoading(false);
       });
     }
   }
@@ -117,11 +129,11 @@ const Login = () => {
           className="my-7 px-2 rounded-full bg-gray-700 hover:bg-black -ml-8">{showPassword?<FaEyeSlash/>:<FaEye/>}</button>
         </div>
         <p className="font-bold text-lg py-2 text-red-600">{errorMessage}</p>
-        <button className="hover:opacity-80 active:opacity-60 p-4 my-6 bg-red-700 w-full rounded-lg"
+        {!isLoading?<button className="hover:opacity-80 active:opacity-60 p-4 my-6 bg-red-700 w-full rounded-lg"
         onClick={handleButtonClick}
         >
           {isSignInForm ? "Sign In" : "Sign Up"}
-        </button>
+        </button>:<Button className="hover:opacity-80 active:opacity-60 p-4 my-6 bg-red-700 w-full rounded-lg" loading={true} disabled={true}></Button>}
         <p className="py-4 cursor-pointer hover:underline" onClick={toggleSignInForm}>
           {isSignInForm
             ? "New to Netflix?Sign up now"

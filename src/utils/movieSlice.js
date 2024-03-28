@@ -31,7 +31,7 @@ const movieSlice=createSlice({
       state.trendingMovies=action.payload;
     },
     addMiniTrailerVideo:(state,action)=>{
-      state.miniTrailerVideo.push(action.payload);
+      state.miniTrailerVideo=action.payload;
     }
   },
 });

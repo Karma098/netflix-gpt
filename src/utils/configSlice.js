@@ -5,6 +5,10 @@ const configSlice=createSlice({
   initialState:{
     lang:"en",
     mute:1,
+    miniTrailerInfo:{
+      posterPath:null,
+      matchId:null,
+    },
   },
   reducers:{
     changeLanguage:(state,action)=>{
@@ -15,10 +19,16 @@ const configSlice=createSlice({
     },
     changeUnmuteToMute:(state)=>{
       state.mute=1;
+    },
+    addPosterPath:(state,action)=>{
+      state.miniTrailerInfo.posterPath=action.payload;
+    },
+    addMatchId:(state,action)=>{
+      state.miniTrailerInfo.matchId=action.payload;
     }
   },
 });
 
-export const {changeLanguage,changeMuteToUnmute,changeUnmuteToMute}=configSlice.actions;
+export const {changeLanguage,changeMuteToUnmute,changeUnmuteToMute,addPosterPath,addMatchId}=configSlice.actions;
 
 export default configSlice.reducer;
