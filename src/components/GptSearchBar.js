@@ -40,7 +40,7 @@ const GptSearchBar = () => {
     //Make an API call to GPT API and get Movie results
     try{
       setIsLoading(true);
-      const genAiQuery="Act as a Movie Recommendation system and suggest some movies for the query: "+searchText.current.value+". Only give me name of 5 movies, comma separated like the example result given- [Gadar,Sholay,Elemental,Don,La La Land,etc]";
+      const genAiQuery="Act as a movie Recommendation system and suggest some movies for the query: "+searchText.current.value+". Only give me name of 5 movies, comma separated like the example result given- [Gadar,Sholay,Elemental,Don,La La Land,etc]";
     
       const model = genAI.getGenerativeModel({ model: "gemini-pro",safety:safetySettings});
       const result = await model.generateContent(genAiQuery);

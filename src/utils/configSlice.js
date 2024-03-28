@@ -25,10 +25,14 @@ const configSlice=createSlice({
     },
     addMatchId:(state,action)=>{
       state.miniTrailerInfo.matchId=action.payload;
+    },
+    removeMiniTrailerInfo:(state)=>{
+      state.miniTrailerInfo.posterPath=null;
+      state.miniTrailerInfo.matchId=null;
     }
   },
 });
 
-export const {changeLanguage,changeMuteToUnmute,changeUnmuteToMute,addPosterPath,addMatchId}=configSlice.actions;
+export const {changeLanguage,changeMuteToUnmute,changeUnmuteToMute,addPosterPath,addMatchId,removeMiniTrailerInfo}=configSlice.actions;
 
 export default configSlice.reducer;

@@ -1,14 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import VideoBackground from './VideoBackground';
 import VideoTitle from './VideoTitle';
 
 const MainContainer = () => {
   const movies=useSelector((store)=>store.movies?.nowPlayingMovies);
+  const [index,setIndex]=useState(0);
 
+  
+  useEffect(()=>{
+    setIndex(Math.floor(Math.random()*19));
+  },[]);
+  
   if(movies===null) return;
-
-  const index=Math.floor(Math.random()*20);
 
   // console.log(index);
 

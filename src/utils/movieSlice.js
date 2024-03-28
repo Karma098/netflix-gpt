@@ -32,11 +32,20 @@ const movieSlice=createSlice({
     },
     addMiniTrailerVideo:(state,action)=>{
       state.miniTrailerVideo=action.payload;
+    },
+    removeAllMovies:(state)=>{
+      state.miniTrailerVideo=null;
+      state.nowPlayingMovies=null;
+      state.popularMovies=null;
+      state.topRatedMovies=null;
+      state.trailerVideo=null;
+      state.trendingMovies=null;
+      state.upcomingMovies=null;
     }
   },
 });
 
 
-export const {addNowPlayingMovies,addTrailerVideo,addPopularMovies,addTopRatedMovies,addUpcomingMovies,addTrendingMovies,addMiniTrailerVideo}=movieSlice.actions;
+export const {addNowPlayingMovies,addTrailerVideo,addPopularMovies,addTopRatedMovies,addUpcomingMovies,addTrendingMovies,addMiniTrailerVideo,removeAllMovies}=movieSlice.actions;
 
 export default movieSlice.reducer;

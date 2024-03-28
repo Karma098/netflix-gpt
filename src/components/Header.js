@@ -6,7 +6,8 @@ import { useEffect } from "react";
 import { addUser, removeUser } from "../utils/userSlice";
 import { LOGO, SUPPORTED_LANGUAGES } from "../utils/constants";
 import { removeGptMovieResults, toggleGptSearchView } from "../utils/gptSlice";
-import { changeLanguage } from "../utils/configSlice";
+import { changeLanguage, removeMiniTrailerInfo } from "../utils/configSlice";
+import { removeAllMovies } from "../utils/movieSlice";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -41,6 +42,8 @@ const Header = () => {
         // User is signed out
         // ...
         dispatch(removeUser());
+        dispatch(removeAllMovies());
+        dispatch(removeMiniTrailerInfo());
         navigate("/");
       }
     });

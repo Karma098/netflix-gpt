@@ -106,12 +106,14 @@ const Login = () => {
           {isSignInForm ? "Sign In" : "Sign Up"}
         </h1>
         {!isSignInForm&&<input
+          required
           ref={name}
           type="text"
           placeholder="Full Name"
           className="p-4 my-4 w-full bg-gray-700 rounded-lg"
         />}
         <input
+          required
           ref={email}
           type="text"
           placeholder="Email Address"
@@ -119,6 +121,7 @@ const Login = () => {
         />
         <div className="flex">          
           <input
+            required
             ref={password}
             type={showPassword?"text":"password"}
             placeholder="Password"
@@ -136,8 +139,8 @@ const Login = () => {
         </button>:<Button className="hover:opacity-80 active:opacity-60 p-4 my-6 bg-red-700 w-full rounded-lg" loading={true} disabled={true}></Button>}
         <p className="py-4 cursor-pointer hover:underline" onClick={toggleSignInForm}>
           {isSignInForm
-            ? "New to Netflix?Sign up now"
-            : "Already a member? Sign In Now"}
+            ? "New to NetflixGPT?Sign up now"
+            : "Already Registered? Sign In Now"}
         </p>
       </form>
     </div>
