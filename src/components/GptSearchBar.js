@@ -70,8 +70,8 @@ const GptSearchBar = () => {
       >
         <input
         ref={searchText}
-        type='text' className='col-span-10 p-3 m-4 rounded-md' placeholder={lang[currLang].gptSearchPlaceholder}/>
-        {!isLoading?<button className='col-span-2 m-4 py-2 px-4 bg-red-700 text-white rounded-lg hover:opacity-80 active:opacity-55'
+        type='text' className='col-span-8 md:col-span-10 p-3 m-4 rounded-md' placeholder={lang[currLang].gptSearchPlaceholder}/>
+        {!isLoading?<button className='col-span-4 md:col-span-2 m-4 py-2 px-4 bg-red-700 text-white rounded-lg hover:opacity-80 active:opacity-55'
         onClick={handleGptSearchClick}
         >{lang[currLang].search}</button>:
         <Button 

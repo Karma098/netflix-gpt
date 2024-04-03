@@ -110,6 +110,7 @@ const MovieCard = ({ posterPath }) => {
           alt="MovieCard"
           src={IMG_CDN + posterPath}
           onMouseEnter={handleMouseEnter}
+          onTouchStart={handleMouseEnter}
         />
       )}
       {showVideo && getMovieVideos() && (
@@ -127,6 +128,7 @@ const MovieCard = ({ posterPath }) => {
             }
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             onMouseOut={handleMouseLeave}
+            onTouchEnd={handleMouseLeave}
           ></iframe>
         </div>
       )}

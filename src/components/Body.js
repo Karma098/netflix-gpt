@@ -21,7 +21,7 @@ const Body=()=>{
     {
       path:"/error",
       element:<Error/>
-    }
+    },
   ]);
 
 
